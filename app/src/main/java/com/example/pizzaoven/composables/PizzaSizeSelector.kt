@@ -1,5 +1,6 @@
 package com.example.pizzaoven.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -16,7 +17,9 @@ import androidx.compose.ui.unit.sp
 @Composable
  fun PizzaSizeSelector(
     modifier: Modifier = Modifier,
-    pizzaSize:List<String>,
+    onSmallClick: () -> Unit,
+    onMediumClick: () -> Unit,
+    onLargeClick: () -> Unit,
 ) {
     LazyRow (
         modifier = modifier
@@ -25,14 +28,35 @@ import androidx.compose.ui.unit.sp
         horizontalArrangement = Arrangement.SpaceAround
 
     ) {
-        items(pizzaSize.size){index->
+        item{
             Text(
-                text = pizzaSize[index],
+                text = "S",
                 color = Color.Black,
                 fontWeight = FontWeight.W400,
-                fontSize = 24.sp
+                fontSize = 24.sp,
+                modifier = Modifier.clickable {onSmallClick()}
             )
         }
+        item{
+            Text(
+                text = "M",
+                color = Color.Black,
+                fontWeight = FontWeight.W400,
+                fontSize = 24.sp,
+                modifier = Modifier.clickable {onMediumClick()}
+            )
+        }
+        item{
+            Text(
+                text = "L",
+                color = Color.Black,
+                fontWeight = FontWeight.W400,
+                fontSize = 24.sp,
+                modifier = Modifier.clickable {onLargeClick()}
+            )
+        }
+
+
 
 
     }

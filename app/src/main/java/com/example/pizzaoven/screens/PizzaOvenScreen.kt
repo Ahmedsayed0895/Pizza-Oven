@@ -1,11 +1,29 @@
 package com.example.pizzaoven.screens
 
+import android.text.style.EasyEditSpan
+import androidx.compose.animation.core.EaseInBack
+import androidx.compose.animation.core.EaseInBounce
+import androidx.compose.animation.core.EaseInCirc
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.EaseInOutExpo
+import androidx.compose.animation.core.EaseInOutQuad
+import androidx.compose.animation.core.EaseInQuart
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,12 +39,18 @@ import com.example.pizzaoven.composables.Price
 import com.example.pizzaoven.composables.TopBar
 import com.example.pizzaoven.composables.ToppingsSelector
 import com.example.pizzaoven.data.breadList
-import com.example.pizzaoven.data.pizzaSizes
 import com.example.pizzaoven.data.toppingList
 
 
 @Composable
  fun PizzaOvenScreen() {
+     var breadSize by remember { mutableStateOf(220.dp) }
+    val animatedBreadSize by animateDpAsState(
+        targetValue = breadSize,
+        label = "breadSizeAnimation",
+        animationSpec =
+        tween(durationMillis = 700, easing = EaseInOut)
+    )
     Scaffold(
         topBar = {
 
@@ -45,7 +69,8 @@ import com.example.pizzaoven.data.toppingList
         ) {
             item {
                 PizzaSlider(
-                    breads = breadList
+                    breads = breadList,
+                    breadSize = animatedBreadSize
                 )
             }
             item {
@@ -55,7 +80,10 @@ import com.example.pizzaoven.data.toppingList
             }
             item {
                 PizzaSizeSelector(
-                    pizzaSize = pizzaSizes
+                    onSmallClick = { breadSize = 220.dp },
+                    onMediumClick = { breadSize = 250.dp },
+                    onLargeClick = { breadSize = 270.dp }
+
                 )
             }
             item {
